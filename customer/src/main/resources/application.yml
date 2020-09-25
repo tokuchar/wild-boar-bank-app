@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: customer-service
+  datasource:
+    url: jdbc:mysql://localhost:3313/BOAR_CUSTOMER_DB
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  banner:
+    location: customer-banner.txt
