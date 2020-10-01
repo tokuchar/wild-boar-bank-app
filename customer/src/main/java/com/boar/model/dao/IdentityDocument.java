@@ -16,11 +16,7 @@ public class IdentityDocument {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long documentId;
 
+    @Column(unique = true)
     String identity;
     LocalDate expirationDate;
-
-    @OneToOne(mappedBy = "identityDocument",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    Customer customer;
 }

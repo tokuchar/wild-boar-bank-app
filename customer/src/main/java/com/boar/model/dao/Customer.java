@@ -20,9 +20,12 @@ public class Customer {
     String name;
     String surname;
     LocalDate birthDate;
+
+    @Column(unique = true)
     String identityNumber;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     IdentityDocument identityDocument;
 
