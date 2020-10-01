@@ -8,3 +8,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   banner:
     location: customer-banner.txt
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
