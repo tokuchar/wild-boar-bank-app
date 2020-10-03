@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration
 @Configuration
 public class FlywayConfig {
-
     @Bean(initMethod = "migrate")
     public Flyway flyway(DataSource dataSource) {
         return Flyway.configure()
