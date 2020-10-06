@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -24,5 +26,4 @@ public class Address {
     String street;
     String houseNumber;
     String zipCode;
-
 }

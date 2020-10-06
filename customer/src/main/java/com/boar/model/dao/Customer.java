@@ -18,22 +18,11 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long customerId;
-
-    @Pattern(regexp = "[a-zA-Z]+")
-    @NotBlank(message = "Please enter name.")
     String name;
-
-    @Pattern(regexp = "[a-zA-Z]+")
-    @NotBlank(message = "Please enter surname.")
     String surname;
-
-    @Past(message = "Birth date must be in the past.")
-    @NotEmpty(message = "Please enter birth date.")
-    //500 http
-            LocalDate birthDate;
+    LocalDate birthDate;
 
     @Column(unique = true)
-    @PESEL
     String identityNumber;
 
     @OneToOne(fetch = FetchType.LAZY,

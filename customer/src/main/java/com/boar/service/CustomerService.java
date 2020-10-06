@@ -23,13 +23,13 @@ public class CustomerService {
     final CustomerRepo customerRepo;
     final ModelMapper modelMapper;
     final ObjectMapper objectMapper;
-final ValidatorService validatorService;
+    final ValidatorService validatorService;
 
     public CustomerService(CustomerRepo customerRepo, ModelMapper modelMapper, ObjectMapper objectMapper, ValidatorService validatorService) {
         this.customerRepo = customerRepo;
         this.modelMapper = modelMapper;
         this.objectMapper = objectMapper;
-        this.validatorService=validatorService;
+        this.validatorService = validatorService;
     }
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, ConstraintViolationException {
@@ -38,7 +38,7 @@ final ValidatorService validatorService;
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         return modelMapper.map(customerRepo.save(customer), CustomerDTO.class);
     }
-
+//TODO checkIfClientExists() for identity document
     private void checkIfClientExists(String identityNumber) throws CustomerAlreadyExistException {
         if (customerRepo.findCustomerByIdentityNumber(identityNumber).isPresent()) {
             throw new CustomerAlreadyExistException(

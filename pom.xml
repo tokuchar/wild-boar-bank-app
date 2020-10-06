@@ -34,7 +34,7 @@
         <hateoas.version>2.3.3.RELEASE</hateoas.version>
         <kie-cie.version>7.43.1.Final</kie-cie.version>
         <drools.decisiontables>7.31.1.Final</drools.decisiontables>
-        <javax.el-api>2.25</javax.el-api>
+        <javax.el-api>3.0.1-b06</javax.el-api>
         <javax.el>2.2.6</javax.el>
         <hibernate-validator>6.0.1.Final</hibernate-validator>
     </properties>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
-            <version>2.2.5</version>
+            <version>3.0.1-b06</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.web</groupId>
