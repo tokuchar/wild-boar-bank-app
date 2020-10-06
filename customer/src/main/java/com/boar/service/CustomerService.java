@@ -1,5 +1,6 @@
 package com.boar.service;
 
+
 import com.boar.exception.CustomerAlreadyExistException;
 import com.boar.exception.CustomerNotFoundException;
 import com.boar.model.dao.Customer;
@@ -14,20 +15,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
+
 @Slf4j
 @Service
 public class CustomerService {
     final CustomerRepo customerRepo;
     final ModelMapper modelMapper;
     final ObjectMapper objectMapper;
+final ValidatorService validatorService;
 
-    public CustomerService(CustomerRepo customerRepo, ModelMapper modelMapper, ObjectMapper objectMapper) {
+    public CustomerService(CustomerRepo customerRepo, ModelMapper modelMapper, ObjectMapper objectMapper, ValidatorService validatorService) {
         this.customerRepo = customerRepo;
         this.modelMapper = modelMapper;
         this.objectMapper = objectMapper;
+        this.validatorService=validatorService;
     }
 
-    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException {
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, ConstraintViolationException {
         checkIfClientExists(customerDTO.getIdentityNumber());
 
         Customer customer = modelMapper.map(customerDTO, Customer.class);

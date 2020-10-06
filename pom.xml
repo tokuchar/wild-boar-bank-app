@@ -32,9 +32,39 @@
         <hibernate.version>5.4.21.Final</hibernate.version>
         <json.patch.version>1.12</json.patch.version>
         <hateoas.version>2.3.3.RELEASE</hateoas.version>
+        <kie-cie.version>7.43.1.Final</kie-cie.version>
+        <drools.decisiontables>7.31.1.Final</drools.decisiontables>
+        <javax.el-api>2.25</javax.el-api>
+        <javax.el>2.2.6</javax.el>
+        <hibernate-validator>6.0.1.Final</hibernate-validator>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>2.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>7.43.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-decisiontables</artifactId>
+            <version>7.43.1.Final</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
