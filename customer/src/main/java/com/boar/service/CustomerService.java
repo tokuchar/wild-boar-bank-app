@@ -38,7 +38,8 @@ public class CustomerService {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         return modelMapper.map(customerRepo.save(customer), CustomerDTO.class);
     }
-//TODO checkIfClientExists() for identity document
+
+    //TODO checkIfClientExists() for identity document
     private void checkIfClientExists(String identityNumber) throws CustomerAlreadyExistException {
         if (customerRepo.findCustomerByIdentityNumber(identityNumber).isPresent()) {
             throw new CustomerAlreadyExistException(
