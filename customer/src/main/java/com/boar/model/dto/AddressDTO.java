@@ -16,10 +16,10 @@ public class AddressDTO {
     @Pattern(regexp = "[a-zA-Z]+(?:[ '-][a-zA-Z]+)*")
     String city;
 
+    //TODO does not work for example "plac. Bema"
     @Pattern(regexp = "[a-zA-Z]+(?:[ ][a-zA-Z]+)*")
     String street;
 
-    //TODO does not work for example "plac. Bema"
     @Pattern(regexp = "\\d+(?:[/]\\d+)*[a-zA-Z]*")
     String houseNumber;
 

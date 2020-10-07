@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class IdentityDocumentDTO {
-    //TODO do method or looking for library
+    //TODO method is already, only put this
     @Pattern(regexp = "[A-Z]{3}[0-9]{6}")
     String identity;
 
