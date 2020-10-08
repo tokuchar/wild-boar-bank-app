@@ -3,6 +3,7 @@ package com.boar.service;
 
 import com.boar.exception.CustomerAlreadyExistException;
 import com.boar.exception.CustomerNotFoundException;
+import com.boar.exception.IdentityDocumentIsWrong;
 import com.boar.model.dao.Customer;
 import com.boar.model.dto.CustomerDTO;
 import com.boar.repository.CustomerRepo;
@@ -14,8 +15,6 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import javax.validation.ConstraintViolationException;
 
 @Slf4j
 @Service
@@ -32,14 +31,20 @@ public class CustomerService {
         this.validatorService = validatorService;
     }
 
-    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, ConstraintViolationException {
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, IdentityDocumentIsWrong {
         checkIfClientExists(customerDTO.getIdentityNumber());
+        checkIdentityDocument(customerDTO.getIdentityDocument().getIdentity());
 
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         return modelMapper.map(customerRepo.save(customer), CustomerDTO.class);
     }
 
-    //TODO checkIfClientExists() for identity document
+    private void checkIdentityDocument(String identityDocument) throws IdentityDocumentIsWrong {
+        if (!validatorService.checkIfIdentityIsCorrect(identityDocument)) {
+            throw new IdentityDocumentIsWrong(String.format("identity document number %s is incorrect", identityDocument));
+        }
+    }
+
     private void checkIfClientExists(String identityNumber) throws CustomerAlreadyExistException {
         if (customerRepo.findCustomerByIdentityNumber(identityNumber).isPresent()) {
             throw new CustomerAlreadyExistException(

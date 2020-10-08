@@ -12,7 +12,7 @@ public class ValidatorService {
     final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     final Validator validator = validatorFactory.getValidator();
 
-    public static boolean checkIfIdentityIsCorrect(String identity) {
+    public boolean checkIfIdentityIsCorrect(String identity) {
         HashMap<String, Integer> alphabetWithAssignedValues = new HashMap<>(26);
         HashMap<Integer, Integer> weightOfNumber = new HashMap<>(3);
 
@@ -43,6 +43,6 @@ public class ValidatorService {
                 sum = sum + alphabetWithAssignedValues.get(key) * weightOfNumber.get(count);
             }
         }
-        return controlNumberIdentity.equals(String.valueOf(sum%10));
+        return controlNumberIdentity.equals(String.valueOf(sum % 10));
     }
 }

@@ -15,6 +15,16 @@ public class CustomerExceptionHandler {
     public static final String EXCEPTION_MESSAGE = "exception: ";
     public static final String RESPONSE_MESSAGE = "message";
 
+    @ExceptionHandler(IdentityDocumentIsWrong.class)
+    public ResponseEntity<Object> identityDocumentIsWrong(IdentityDocumentIsWrong exception) {
+        log.error(EXCEPTION_MESSAGE, exception);
+        return new ResponseEntity<>(
+                new HashMap<String, String>() {{
+                    put(RESPONSE_MESSAGE, exception.getMessage());
+                }},
+                HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> constraintViolationException(ConstraintViolationException exception) {
         log.error(EXCEPTION_MESSAGE, exception);

@@ -13,6 +13,6 @@ import javax.validation.constraints.Email;
 public class ContactDTO {
     ContactType contactType;
 
-    @Email
+    @Email(message = "Email is incorrect.")
     String contactValue;
 }

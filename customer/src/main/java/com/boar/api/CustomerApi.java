@@ -2,6 +2,7 @@ package com.boar.api;
 
 import com.boar.exception.CustomerAlreadyExistException;
 import com.boar.exception.CustomerNotFoundException;
+import com.boar.exception.IdentityDocumentIsWrong;
 import com.boar.model.dto.CustomerDTO;
 import com.boar.service.CustomerService;
 import com.github.fge.jsonpatch.JsonPatch;
@@ -22,7 +23,7 @@ public class CustomerApi {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customer) throws CustomerAlreadyExistException {
+    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customer) throws CustomerAlreadyExistException, IdentityDocumentIsWrong {
         return ResponseEntity.ok(customerService.createCustomer(customer)
                 .addSelfLink());
     }

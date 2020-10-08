@@ -3,10 +3,8 @@ package com.boar.model.dao;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.pl.PESEL;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -28,7 +26,7 @@ public class Customer {
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
-    IdentityDocument identityDocument;
+    IdentityDocumentDTO identityDocument;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
