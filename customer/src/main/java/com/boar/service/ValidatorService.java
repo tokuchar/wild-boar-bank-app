@@ -13,6 +13,8 @@ public class ValidatorService {
     final Validator validator = validatorFactory.getValidator();
 
     public boolean checkIfIdentityIsCorrect(String identity) {
+        if (!identity.matches("[A-Z]{3}\\d{6}")) return false;
+
         HashMap<String, Integer> alphabetWithAssignedValues = new HashMap<>(26);
         HashMap<Integer, Integer> weightOfNumber = new HashMap<>(3);
 

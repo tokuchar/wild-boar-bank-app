@@ -30,7 +30,6 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> {
     @PESEL(message = "PESEL is incorrect.")
     String identityNumber;
 
-    @Pattern(regexp = "[A-Z]{3}\\d{6}", message = "Identity document number is incorrect.")
     IdentityDocumentDTO identityDocument;
 
     Set<AddressDTO> addresses;
