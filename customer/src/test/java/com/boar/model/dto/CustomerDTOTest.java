@@ -11,13 +11,12 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.Set;
 
-
 class CustomerDTOTest {
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();
 
     @Test
-    public void firstTestCustomerDTO() {
+    public void firstTest() {
         CustomerDTO customerDTO1 = new CustomerDTO();
         CustomerDTO customerDTO2 = new CustomerDTO();
         CustomerDTO customerDTO3 = new CustomerDTO();
@@ -38,19 +37,17 @@ class CustomerDTOTest {
         customerDTO2.setBirthDate(LocalDate.of(1980, 11, 2));
         customerDTO3.setBirthDate(LocalDate.of(2000, 5, 30));
 
-        // Validate the object
         Set<ConstraintViolation<CustomerDTO>> constraintViolations1 = validator.validate(customerDTO1);
         Set<ConstraintViolation<CustomerDTO>> constraintViolations2 = validator.validate(customerDTO2);
         Set<ConstraintViolation<CustomerDTO>> constraintViolations3 = validator.validate(customerDTO3);
 
-        // This is the line that will cause your unit test to fail if there are not any violations
         Assert.assertEquals(0, constraintViolations1.size());
         Assert.assertEquals(0, constraintViolations2.size());
         Assert.assertEquals(0, constraintViolations3.size());
     }
 
     @Test
-    public void secondTestCustomerDTO() {
+    public void secondTest() {
         CustomerDTO customerDTO1 = new CustomerDTO();
         CustomerDTO customerDTO2 = new CustomerDTO();
         CustomerDTO customerDTO3 = new CustomerDTO();
