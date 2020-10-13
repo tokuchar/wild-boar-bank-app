@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ValidatorServiceTest {
 
+    ValidatorService validatorService = new ValidatorService();
+
     @Test
     void checkIfIdentityIsCorrect() {
-        ValidatorService validatorService=new ValidatorService();
         assertTrue(validatorService.checkIfIdentityIsCorrect("DYQ723005"));
         assertTrue(validatorService.checkIfIdentityIsCorrect("ART831293"));
         assertTrue(validatorService.checkIfIdentityIsCorrect("MER255106"));
@@ -21,3 +22,4 @@ class ValidatorServiceTest {
         assertFalse(validatorService.checkIfIdentityIsCorrect(";;;//>{:{"));
     }
 }
+

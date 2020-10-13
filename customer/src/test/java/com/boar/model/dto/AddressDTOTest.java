@@ -1,5 +1,6 @@
 package com.boar.model.dto;
 
+import org.apache.tomcat.util.bcel.Const;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +20,7 @@ class AddressDTOTest {
         AddressDTO addressDTO1 = new AddressDTO();
         AddressDTO addressDTO2 = new AddressDTO();
         AddressDTO addressDTO3 = new AddressDTO();
+        AddressDTO addressDTO4 = new AddressDTO();
 
         addressDTO1.setStreet("Plac Bema");
         addressDTO2.setStreet("Ulica Kościuszki");
@@ -39,10 +41,15 @@ class AddressDTOTest {
         Set<ConstraintViolation<AddressDTO>> constraintViolation1 = validator.validate(addressDTO1);
         Set<ConstraintViolation<AddressDTO>> constraintViolation2 = validator.validate(addressDTO2);
         Set<ConstraintViolation<AddressDTO>> constraintViolation3 = validator.validate(addressDTO3);
+      //  Set<ConstraintViolation<AddressDTO>> constraintViolation4 =validator.validateValue(AddressDTO.class,addressDTO4.city,addressDTO4);
 
         Assert.assertEquals(0, constraintViolation1.size());
         Assert.assertEquals(0, constraintViolation2.size());
         Assert.assertEquals(0, constraintViolation3.size());
+      //  Assert.assertEquals(0, constraintViolation4.size());
+   // Assert.assertEquals("may not be null", constraintViolation4.iterator().next().getMessage());
+
+
     }
 
     @Test
