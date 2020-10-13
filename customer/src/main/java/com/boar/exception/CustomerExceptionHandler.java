@@ -15,8 +15,8 @@ public class CustomerExceptionHandler {
     public static final String EXCEPTION_MESSAGE = "exception: ";
     public static final String RESPONSE_MESSAGE = "message";
 
-    @ExceptionHandler(IdentityDocumentIsWrong.class)
-    public ResponseEntity<Object> identityDocumentIsWrong(IdentityDocumentIsWrong exception) {
+    @ExceptionHandler(IdentityDocumentException.class)
+    public ResponseEntity<Object> identityDocumentIsWrong(IdentityDocumentException exception) {
         log.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(
                 new HashMap<String, String>() {{

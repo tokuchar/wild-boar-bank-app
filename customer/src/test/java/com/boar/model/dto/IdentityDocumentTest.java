@@ -10,7 +10,7 @@ import javax.validation.ValidatorFactory;
 import java.time.LocalDate;
 import java.util.Set;
 
-class IdentityDocumentDTOTest {
+class IdentityDocumentTest {
 
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private final Validator validator = factory.getValidator();

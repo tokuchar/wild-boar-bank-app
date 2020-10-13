@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @Entity
-public class IdentityDocumentDTO {
+public class IdentityDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long documentId;

@@ -3,7 +3,7 @@ package com.boar.service;
 
 import com.boar.exception.CustomerAlreadyExistException;
 import com.boar.exception.CustomerNotFoundException;
-import com.boar.exception.IdentityDocumentIsWrong;
+import com.boar.exception.IdentityDocumentException;
 import com.boar.model.dao.Customer;
 import com.boar.model.dto.CustomerDTO;
 import com.boar.repository.CustomerRepo;
@@ -31,7 +31,7 @@ public class CustomerService {
         this.validatorService = validatorService;
     }
 
-    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, IdentityDocumentIsWrong {
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, IdentityDocumentException {
         checkIfClientExists(customerDTO.getIdentityNumber());
         checkIdentityDocument(customerDTO.getIdentityDocument().getIdentity());
 
@@ -39,9 +39,9 @@ public class CustomerService {
         return modelMapper.map(customerRepo.save(customer), CustomerDTO.class);
     }
 
-    private void checkIdentityDocument(String identityDocument) throws IdentityDocumentIsWrong {
+    private void checkIdentityDocument(String identityDocument) throws IdentityDocumentException {
         if (!validatorService.checkIfIdentityIsCorrect(identityDocument)) {
-            throw new IdentityDocumentIsWrong(String.format("identity document number %s is incorrect", identityDocument));
+            throw new IdentityDocumentException(String.format("identity document number %s is incorrect", identityDocument));
         }
     }
 
