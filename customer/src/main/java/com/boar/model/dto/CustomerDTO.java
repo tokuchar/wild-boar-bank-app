@@ -1,8 +1,6 @@
 package com.boar.model.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.pl.PESEL;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
@@ -16,6 +14,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CustomerDTO extends RepresentationModel<CustomerDTO> {
 
     @Pattern(regexp = "\\p{Lu}\\p{Ll}+", message = "Wrong name.")

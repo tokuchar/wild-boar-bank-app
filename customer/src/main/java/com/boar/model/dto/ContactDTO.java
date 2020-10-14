@@ -1,15 +1,15 @@
 package com.boar.model.dto;
 
 import com.boar.model.ContactType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
 public class ContactDTO {
     ContactType contactType;
 

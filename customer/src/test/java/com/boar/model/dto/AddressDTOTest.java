@@ -1,85 +1,63 @@
 package com.boar.model.dto;
 
-import org.apache.tomcat.util.bcel.Const;
-import org.junit.Assert;
+import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-import java.util.Set;
-
-class AddressDTOTest {
-    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    private final Validator validator = factory.getValidator();
+class AddressDTOTest extends ValidatorTest {
 
     @Test
-    public void firstTest() {
-        AddressDTO addressDTO1 = new AddressDTO();
-        AddressDTO addressDTO2 = new AddressDTO();
-        AddressDTO addressDTO3 = new AddressDTO();
-        AddressDTO addressDTO4 = new AddressDTO();
+    public void checksValidDataTest() {
+        AddressDTO addressDTO1 = AddressDTO.builder()
+                .city("Wrocław")
+                .zipCode("50-001")
+                .street("Plac Bema")
+                .houseNumber("32a")
+                .build();
 
-        addressDTO1.setStreet("Plac Bema");
-        addressDTO2.setStreet("Ulica Kościuszki");
-        addressDTO3.setStreet("Ulica Niepodległości");
+        AddressDTO addressDTO2 = AddressDTO.builder()
+                .city("Nowy Świat")
+                .zipCode("66-131")
+                .street("Ulica Kościuszki")
+                .houseNumber("5")
+                .build();
 
-        addressDTO1.setHouseNumber("32a");
-        addressDTO2.setHouseNumber("32/33");
-        addressDTO3.setHouseNumber("1");
+        AddressDTO addressDTO3 = AddressDTO.builder()
+                .city("Zielona Góra")
+                .zipCode("65-999")
+                .street("Ulica Niepodległości")
+                .houseNumber("32/33")
+                .build();
 
-        addressDTO1.setCity("Wrocław");
-        addressDTO2.setCity("Nowy Świat");
-        addressDTO3.setCity("Zielona Góra");
-
-        addressDTO1.setZipCode("50-001");
-        addressDTO2.setZipCode("66-131");
-        addressDTO1.setZipCode("65-999");
-
-        Set<ConstraintViolation<AddressDTO>> constraintViolation1 = validator.validate(addressDTO1);
-        Set<ConstraintViolation<AddressDTO>> constraintViolation2 = validator.validate(addressDTO2);
-        Set<ConstraintViolation<AddressDTO>> constraintViolation3 = validator.validate(addressDTO3);
-      //  Set<ConstraintViolation<AddressDTO>> constraintViolation4 =validator.validateValue(AddressDTO.class,addressDTO4.city,addressDTO4);
-
-        Assert.assertEquals(0, constraintViolation1.size());
-        Assert.assertEquals(0, constraintViolation2.size());
-        Assert.assertEquals(0, constraintViolation3.size());
-      //  Assert.assertEquals(0, constraintViolation4.size());
-   // Assert.assertEquals("may not be null", constraintViolation4.iterator().next().getMessage());
-
-
+        compareExpectedToActualValidateErrors(0, addressDTO1);
+        compareExpectedToActualValidateErrors(0, addressDTO2);
+        compareExpectedToActualValidateErrors(0, addressDTO3);
     }
 
     @Test
-    public void secondTest() {
-        AddressDTO addressDTO1 = new AddressDTO();
-        AddressDTO addressDTO2 = new AddressDTO();
-        AddressDTO addressDTO3 = new AddressDTO();
+    public void checksForInvalidDataTest() {
+        AddressDTO addressDTO1 = AddressDTO.builder()
+                .city("Wroc1ław")
+                .zipCode("50001")
+                .street("PlacBema")
+                .houseNumber("a32")
+                .build();
 
-        addressDTO1.setStreet("Niepod1egłości");
-        addressDTO2.setStreet("Niepod egłości");
-        addressDTO3.setStreet("12345/");
+        AddressDTO addressDTO2 = AddressDTO.builder()
+                .city("NowyŚwiat")
+                .zipCode("66/131")
+                .street("123")
+                .houseNumber("Ulica Kościuszki")
+                .build();
 
-        addressDTO1.setHouseNumber("Aa");
-        addressDTO2.setHouseNumber(";.;");
-        addressDTO3.setHouseNumber("12+12");
+        AddressDTO addressDTO3 = AddressDTO.builder()
+                .city("436/;")
+                .zipCode("aa-aaa")
+                .street("14445656")
+                .houseNumber("Bema 24")
+                .build();
 
-        addressDTO1.setStreet("WWrocław");
-        addressDTO2.setStreet("WWroc1aw");
-        addressDTO3.setStreet("WWroc aw");
-
-        addressDTO1.setZipCode("50001");
-        addressDTO2.setZipCode("=-'=-");
-        addressDTO3.setZipCode("aa-abc");
-
-        Set<ConstraintViolation<AddressDTO>> constraintViolations1 = validator.validate(addressDTO1);
-        Set<ConstraintViolation<AddressDTO>> constraintViolations2 = validator.validate(addressDTO2);
-        Set<ConstraintViolation<AddressDTO>> constraintViolations3 = validator.validate(addressDTO3);
-
-        Assert.assertNotEquals(0, constraintViolations1.size());
-        Assert.assertNotEquals(0, constraintViolations2.size());
-        Assert.assertNotEquals(0, constraintViolations3.size());
+        compareExpectedToActualValidateErrors(4, addressDTO1);
+        compareExpectedToActualValidateErrors(4, addressDTO2);
+        compareExpectedToActualValidateErrors(4, addressDTO3);
     }
 }

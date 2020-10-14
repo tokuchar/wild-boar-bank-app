@@ -1,54 +1,48 @@
 package com.boar.model.dto;
 
-import org.junit.Assert;
+import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.Set;
-
-class ContactDTOTest {
-
-    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    private final Validator validator = factory.getValidator();
+class ContactDTOTest extends ValidatorTest {
 
     @Test
-    public void firstTest() {
-        ContactDTO contactDTO1 = new ContactDTO();
-        ContactDTO contactDTO2 = new ContactDTO();
-        ContactDTO contactDTO3 = new ContactDTO();
+    public void checksValidDataTest() {
+        ContactDTO contactDTO1 = ContactDTO.builder()
+                .contactValue("doktor@gmail.com")
+                .build();
 
-        contactDTO1.setContactValue("doktor98@gmail.com");
-        contactDTO2.setContactValue("doktor98@onet.pl");
-        contactDTO3.setContactValue("dokt.orAA@gmail.org.com");
+        ContactDTO contactDTO2 = ContactDTO.builder()
+                .contactValue("doktor@wp.pl")
+                .build();
 
-        Set<ConstraintViolation<ContactDTO>> constraintViolation1 = validator.validate(contactDTO1);
-        Set<ConstraintViolation<ContactDTO>> constraintViolation2 = validator.validate(contactDTO2);
-        Set<ConstraintViolation<ContactDTO>> constraintViolation3 = validator.validate(contactDTO3);
+        ContactDTO contactDTO3 = ContactDTO.builder()
+                .contactValue("doktor@check.end")
+                .build();
 
-        Assert.assertEquals(0, constraintViolation1.size());
-        Assert.assertEquals(0, constraintViolation2.size());
-        Assert.assertEquals(0, constraintViolation3.size());
+        compareExpectedToActualValidateErrors(0, contactDTO1);
+        compareExpectedToActualValidateErrors(0, contactDTO2);
+        compareExpectedToActualValidateErrors(0, contactDTO3);
     }
 
     @Test
-    public void secondTest() {
-        ContactDTO contactDTO1 = new ContactDTO();
-        ContactDTO contactDTO2 = new ContactDTO();
-        ContactDTO contactDTO3 = new ContactDTO();
+    public void checksForInvalidDataTest() {
+        ContactDTO contactDTO1 = ContactDTO.builder()
+                .contactValue("doktor. gmail.com")
+                .build();
+        ContactDTO contactDTO = new ContactDTO();
+        contactDTO.setContactValue("doktor94@gmail");
 
-        contactDTO1.setContactValue("doktor94");
-        contactDTO2.setContactValue("doktor94@gmail");
-        contactDTO3.setContactValue("doktor94.com");
+        ContactDTO contactDTO2 = ContactDTO.builder()
+                .contactValue("doktor94@gmail") //TODO regexp for validate email
+                .build();
 
-        Set<ConstraintViolation<ContactDTO>> constraintViolation1 = validator.validate(contactDTO1);
-        Set<ConstraintViolation<ContactDTO>> constraintViolation2 = validator.validate(contactDTO2);
-        Set<ConstraintViolation<ContactDTO>> constraintViolation3 = validator.validate(contactDTO3);
+        ContactDTO contactDTO3 = ContactDTO.builder()
+                .contactValue("doktor@check@end")
+                .build();
 
-        Assert.assertNotEquals(0, constraintViolation1);
-        Assert.assertNotEquals(0, constraintViolation2);
-        Assert.assertNotEquals(0, constraintViolation3);
+        compareExpectedToActualValidateErrors(1, contactDTO1);
+        compareExpectedToActualValidateErrors(1, contactDTO);
+        compareExpectedToActualValidateErrors(1, contactDTO2);
+        compareExpectedToActualValidateErrors(1, contactDTO3);
     }
 }

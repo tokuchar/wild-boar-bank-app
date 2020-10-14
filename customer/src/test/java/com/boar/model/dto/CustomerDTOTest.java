@@ -1,81 +1,65 @@
 package com.boar.model.dto;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-import org.junit.Assert;
+import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-class CustomerDTOTest {
-    private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    private final Validator validator = factory.getValidator();
+class CustomerDTOTest extends ValidatorTest {
 
     @Test
-    public void firstTest() {
-        CustomerDTO customerDTO1 = new CustomerDTO();
-        CustomerDTO customerDTO2 = new CustomerDTO();
-        CustomerDTO customerDTO3 = new CustomerDTO();
+    public void checkValidDataTest() {
+        CustomerDTO customerDTO1 = CustomerDTO.builder()
+                .identityNumber("80010426546")
+                .name("Łukasz")
+                .surname("Kowalski")
+                .birthDate(LocalDate.of(1999, 10, 10))
+                .build();
 
-        customerDTO1.setIdentityNumber("80010426546");
-        customerDTO2.setIdentityNumber("80010426546");
-        customerDTO3.setIdentityNumber("80010426546");
+        CustomerDTO customerDTO2 = CustomerDTO.builder()
+                .identityNumber("80010426546")
+                .name("Joanna")
+                .surname("Kołeczewska-Ruchała")
+                .birthDate(LocalDate.of(1980, 11, 2))
+                .build();
 
-        customerDTO1.setName("Łukasz");
-        customerDTO2.setName("Joanna");
-        customerDTO3.setName("Kajetan");
+        CustomerDTO customerDTO3 = CustomerDTO.builder()
+                .identityNumber("80010426546")
+                .name("Kajetan")
+                .surname("Dąbrowska")
+                .birthDate(LocalDate.of(2000, 5, 30))
+                .build();
 
-        customerDTO1.setSurname("Kowalski");
-        customerDTO2.setSurname("Kołeczewska-Ruchała");
-        customerDTO3.setSurname("Dąbrowska");
-
-        customerDTO1.setBirthDate(LocalDate.of(1999, 10, 10));
-        customerDTO2.setBirthDate(LocalDate.of(1980, 11, 2));
-        customerDTO3.setBirthDate(LocalDate.of(2000, 5, 30));
-
-        Set<ConstraintViolation<CustomerDTO>> constraintViolations1 = validator.validate(customerDTO1);
-        Set<ConstraintViolation<CustomerDTO>> constraintViolations2 = validator.validate(customerDTO2);
-        Set<ConstraintViolation<CustomerDTO>> constraintViolations3 = validator.validate(customerDTO3);
-
-        Assert.assertEquals(0, constraintViolations1.size());
-        Assert.assertEquals(0, constraintViolations2.size());
-        Assert.assertEquals(0, constraintViolations3.size());
+        compareExpectedToActualValidateErrors(0, customerDTO1);
+        compareExpectedToActualValidateErrors(0, customerDTO2);
+        compareExpectedToActualValidateErrors(0, customerDTO3);
     }
 
     @Test
-    public void secondTest() {
-        CustomerDTO customerDTO1 = new CustomerDTO();
-        CustomerDTO customerDTO2 = new CustomerDTO();
-        CustomerDTO customerDTO3 = new CustomerDTO();
+    public void checkForInvalidDataTest() {// jeden error jest
+        CustomerDTO customerDTO1 = CustomerDTO.builder()
+                .identityNumber("80010336546") //zastapienie literami nie wywala bledu
+                .name("Łukasz1")
+                .surname("Kowalski21")
+                .birthDate(LocalDate.of(2021, 10, 10))
+                .build();
 
-        customerDTO1.setIdentityNumber("800104265461");
-        customerDTO2.setIdentityNumber("abCDEGGJAKEN");
-        customerDTO3.setIdentityNumber("1123");
+        CustomerDTO customerDTO2 = CustomerDTO.builder() //jeden error jest
+               // .identityNumber("80010026546")
+                .name("123")
+                .surname("Kołeczewska.Ruchała")
+               .birthDate(LocalDate.of(2020, 12, 2))
+                .build();
 
-        customerDTO1.setName("Łukasz12");
-        customerDTO2.setName("ąbćdeg");
-        customerDTO3.setName("123");
+        CustomerDTO customerDTO3 = CustomerDTO.builder()
+                .identityNumber("8001042654")
+                .name("Kaje t1an")
+                .surname("1235")
+                .birthDate(LocalDate.of(2050, 5, 30))
+                .build();
 
-        customerDTO1.setSurname("Kowalski12");
-        customerDTO2.setSurname("123");
-        customerDTO3.setSurname("aaaaaAAAAbbb-aa");
-
-        customerDTO1.setBirthDate(LocalDate.of(2030, 10, 10));
-        customerDTO2.setBirthDate(LocalDate.of(2024, 12, 30));
-        customerDTO3.setBirthDate(LocalDate.of(2020, 12, 1));
-
-        // Validate the object
-        Set<ConstraintViolation<CustomerDTO>> constraintViolations1 = validator.validate(customerDTO1);
-        Set<ConstraintViolation<CustomerDTO>> constraintViolations2 = validator.validate(customerDTO2);
-        Set<ConstraintViolation<CustomerDTO>> constraintViolations3 = validator.validate(customerDTO3);
-
-        // This is the line that will cause your unit test to fail if there are not any violations
-        Assert.assertNotEquals(0, constraintViolations1.size());
-        Assert.assertNotEquals(0, constraintViolations2.size());
-        Assert.assertNotEquals(0, constraintViolations3.size());
+        compareExpectedToActualValidateErrors(4, customerDTO1);
+        compareExpectedToActualValidateErrors(3, customerDTO2);
+        compareExpectedToActualValidateErrors(4, customerDTO3);
     }
 }

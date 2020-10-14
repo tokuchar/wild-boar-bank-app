@@ -35,7 +35,7 @@
         <kie-cie.version>7.43.1.Final</kie-cie.version>
         <javax.el-api>3.0.1-b06</javax.el-api>
         <javax.el>2.2.6</javax.el>
-        <hibernate-validator>6.0.1.Final</hibernate-validator>
+        <hibernate-validator.version>6.0.1.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>

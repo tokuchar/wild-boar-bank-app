@@ -1,15 +1,15 @@
 package com.boar.model.dto;
 
 import com.boar.model.AddressType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AddressDTO {
     AddressType addressType;
 
