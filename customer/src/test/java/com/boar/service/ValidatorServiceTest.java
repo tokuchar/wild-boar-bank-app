@@ -1,25 +1,28 @@
 package com.boar.service;
 
+import com.boar.CheckDataTest;
+import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ValidatorServiceTest {
-
-    ValidatorService validatorService = new ValidatorService();
+class ValidatorServiceTest extends ValidatorTest implements CheckDataTest {
 
     @Test
-    void checkIfIdentityIsCorrect() {
-        assertTrue(validatorService.checkIfIdentityIsCorrect("DYQ723005"));
-        assertTrue(validatorService.checkIfIdentityIsCorrect("ART831293"));
-        assertTrue(validatorService.checkIfIdentityIsCorrect("MER255106"));
+    @Override
+    public void checkValidDataTest() {
+        validateWithUsesMethodCheckIfIdentityIsCorrect("DYQ723005");
+        validateWithUsesMethodCheckIfIdentityIsCorrect("ART831293");
+        validateWithUsesMethodCheckIfIdentityIsCorrect("MER255106");
+    }
 
-        assertFalse(validatorService.checkIfIdentityIsCorrect("MER2551061010"));
-        assertFalse(validatorService.checkIfIdentityIsCorrect("ARTGBC293"));
-        assertFalse(validatorService.checkIfIdentityIsCorrect("123355106"));
-        assertFalse(validatorService.checkIfIdentityIsCorrect("MER155106"));
-        assertFalse(validatorService.checkIfIdentityIsCorrect(" "));
-        assertFalse(validatorService.checkIfIdentityIsCorrect(";;;//>{:{"));
+    @Test
+    @Override
+    public void checkForInvalidDataTest() {
+        invalidateWithUsesMethodCheckIfIdentityIsCorrect("MER2551061010");
+        invalidateWithUsesMethodCheckIfIdentityIsCorrect("ARTGBC293");
+        invalidateWithUsesMethodCheckIfIdentityIsCorrect("123355106");
+        invalidateWithUsesMethodCheckIfIdentityIsCorrect("MER155106");
+        invalidateWithUsesMethodCheckIfIdentityIsCorrect(" ");
+        invalidateWithUsesMethodCheckIfIdentityIsCorrect(";;;//>{:{");
     }
 }
 

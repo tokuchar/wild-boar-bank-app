@@ -1,12 +1,14 @@
 package com.boar.model.dto;
 
+import com.boar.CheckDataTest;
 import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
-class AddressDTOTest extends ValidatorTest {
+class AddressDTOTest extends ValidatorTest implements CheckDataTest {
 
     @Test
-    public void checksValidDataTest() {
+    @Override
+    public void checkValidDataTest() {
         AddressDTO addressDTO1 = AddressDTO.builder()
                 .city("Wrocław")
                 .zipCode("50-001")
@@ -34,7 +36,8 @@ class AddressDTOTest extends ValidatorTest {
     }
 
     @Test
-    public void checksForInvalidDataTest() {
+    @Override
+    public void checkForInvalidDataTest() {
         AddressDTO addressDTO1 = AddressDTO.builder()
                 .city("Wroc1ław")
                 .zipCode("50001")

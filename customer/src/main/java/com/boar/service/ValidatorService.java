@@ -2,15 +2,10 @@ package com.boar.service;
 
 import org.springframework.stereotype.Service;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.HashMap;
 
 @Service
 public class ValidatorService {
-    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    final Validator validator = validatorFactory.getValidator();
 
     public boolean checkIfIdentityIsCorrect(String identity) {
         if (!identity.matches("[A-Z]{3}\\d{6}")) return false;

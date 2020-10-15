@@ -28,6 +28,7 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> {
     LocalDate birthDate;
 
     @PESEL(message = "PESEL is incorrect.")
+    @Pattern(regexp = "\\d{11}", message = "PESEL contains incorrect number of characters or \n" + "characters that are not allowed")
     String identityNumber;
 
     IdentityDocumentDTO identityDocument;

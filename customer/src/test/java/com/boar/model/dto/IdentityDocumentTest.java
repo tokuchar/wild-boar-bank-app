@@ -1,13 +1,15 @@
 package com.boar.model.dto;
 
+import com.boar.CheckDataTest;
 import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-class IdentityDocumentTest extends ValidatorTest {
+class IdentityDocumentTest extends ValidatorTest implements CheckDataTest {
 
     @Test
+    @Override
     public void checkValidDataTest() {
         IdentityDocumentDTO identityDocumentDTO1 = IdentityDocumentDTO.builder()
                 .expirationDate(LocalDate.of(2030, 12, 12))
@@ -27,6 +29,7 @@ class IdentityDocumentTest extends ValidatorTest {
     }
 
     @Test
+    @Override
     public void checkForInvalidDataTest() {
         IdentityDocumentDTO identityDocumentDTO1 = IdentityDocumentDTO.builder()
                 .expirationDate(LocalDate.of(2000, 12, 12))

@@ -1,18 +1,20 @@
 package com.boar.model.dto;
 
+import com.boar.CheckDataTest;
 import com.boar.ValidatorTest;
 import org.junit.jupiter.api.Test;
 
-class ContactDTOTest extends ValidatorTest {
+class ContactDTOTest extends ValidatorTest implements CheckDataTest {
 
     @Test
-    public void checksValidDataTest() {
+    @Override
+    public void checkValidDataTest() {
         ContactDTO contactDTO1 = ContactDTO.builder()
                 .contactValue("doktor@gmail.com")
                 .build();
 
         ContactDTO contactDTO2 = ContactDTO.builder()
-                .contactValue("doktor@wp.pl")
+                .contactValue("doktor@wp")
                 .build();
 
         ContactDTO contactDTO3 = ContactDTO.builder()
@@ -25,15 +27,14 @@ class ContactDTOTest extends ValidatorTest {
     }
 
     @Test
-    public void checksForInvalidDataTest() {
+    @Override
+    public void checkForInvalidDataTest() {
         ContactDTO contactDTO1 = ContactDTO.builder()
                 .contactValue("doktor. gmail.com")
                 .build();
-        ContactDTO contactDTO = new ContactDTO();
-        contactDTO.setContactValue("doktor94@gmail");
 
         ContactDTO contactDTO2 = ContactDTO.builder()
-                .contactValue("doktor94@gmail") //TODO regexp for validate email
+                .contactValue("doktor94@gm ail")
                 .build();
 
         ContactDTO contactDTO3 = ContactDTO.builder()
@@ -41,7 +42,6 @@ class ContactDTOTest extends ValidatorTest {
                 .build();
 
         compareExpectedToActualValidateErrors(1, contactDTO1);
-        compareExpectedToActualValidateErrors(1, contactDTO);
         compareExpectedToActualValidateErrors(1, contactDTO2);
         compareExpectedToActualValidateErrors(1, contactDTO3);
     }
