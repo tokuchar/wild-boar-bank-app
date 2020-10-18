@@ -1,7 +1,9 @@
 package com.boar.service;
 
+
 import com.boar.exception.CustomerAlreadyExistException;
 import com.boar.exception.CustomerNotFoundException;
+import com.boar.exception.IdentityDocumentException;
 import com.boar.model.dao.Customer;
 import com.boar.model.dto.CustomerDTO;
 import com.boar.repository.CustomerRepo;
@@ -20,18 +22,27 @@ public class CustomerService {
     final CustomerRepo customerRepo;
     final ModelMapper modelMapper;
     final ObjectMapper objectMapper;
+    final ValidatorService validatorService;
 
-    public CustomerService(CustomerRepo customerRepo, ModelMapper modelMapper, ObjectMapper objectMapper) {
+    public CustomerService(CustomerRepo customerRepo, ModelMapper modelMapper, ObjectMapper objectMapper, ValidatorService validatorService) {
         this.customerRepo = customerRepo;
         this.modelMapper = modelMapper;
         this.objectMapper = objectMapper;
+        this.validatorService = validatorService;
     }
 
-    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException {
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) throws CustomerAlreadyExistException, IdentityDocumentException {
         checkIfClientExists(customerDTO.getIdentityNumber());
+        checkIdentityDocument(customerDTO.getIdentityDocument().getIdentity());
 
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         return modelMapper.map(customerRepo.save(customer), CustomerDTO.class);
+    }
+
+    private void checkIdentityDocument(String identityDocument) throws IdentityDocumentException {
+        if (!validatorService.checkIfIdentityIsCorrect(identityDocument)) {
+            throw new IdentityDocumentException(String.format("identity document number %s is incorrect", identityDocument));
+        }
     }
 
     private void checkIfClientExists(String identityNumber) throws CustomerAlreadyExistException {
