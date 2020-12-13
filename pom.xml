@@ -33,9 +33,33 @@
         <hibernate.version>5.4.21.Final</hibernate.version>
         <json.patch.version>1.12</json.patch.version>
         <hateoas.version>2.3.3.RELEASE</hateoas.version>
+        <kie-cie.version>7.43.1.Final</kie-cie.version>
+        <javax.el-api>3.0.1-b06</javax.el-api>
+        <javax.el>2.2.6</javax.el>
+        <hibernate-validator.version>6.0.1.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${javax.el-api}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${javax.el}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>${kie-cie.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

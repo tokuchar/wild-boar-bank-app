@@ -24,5 +24,4 @@ public class Address {
     String street;
     String houseNumber;
     String zipCode;
-
 }
