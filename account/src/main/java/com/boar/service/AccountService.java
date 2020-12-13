@@ -11,11 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Transaction;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Slf4j
 @Service
@@ -24,14 +22,10 @@ public class AccountService {
     final ModelMapper modelMapper;
     final ObjectMapper objectMapper;
 
-    @PersistenceContext
-    private  EntityManager em;
-
     public AccountService(AccountRepo accountRepo, ModelMapper modelMapper, ObjectMapper objectMapper) {
         this.accountRepo = accountRepo;
         this.modelMapper = modelMapper;
         this.objectMapper = objectMapper;
-
     }
 
     public AccountClientDTO createAccount(AccountClientDTO accountClientDTO) throws AccountAlreadyExistException {
@@ -43,14 +37,14 @@ public class AccountService {
     }
 
     public AccountClientDTO getAccount(Long accountId) throws AccountClientNotFoundException {
-        AccountClient account = accountRepo.findAccountClientByAccountId(accountId)
-                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account %s not found", accountId)));
+        AccountClient account = accountRepo.findById(accountId)
+                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account about ID: %s not found", accountId)));
         return modelMapper.map(account, AccountClientDTO.class);
     }
 
 
     public AccountClientDTO updateAccount(Long accountId, AccountClientDTO accountClientDTO) throws AccountClientNotFoundException{
-        return accountRepo.findAccountClientByAccountId(accountId).map(account -> {
+        return accountRepo.findById(accountId).map(account -> {
             AccountClient updateAccount = modelMapper.map(accountClientDTO, AccountClient.class);
             updateAccount.setAccountId((account.getAccountId()));
             accountRepo.save(updateAccount);
@@ -59,29 +53,8 @@ public class AccountService {
                 .orElseThrow(() -> new AccountClientNotFoundException(String.format("account about ID: %s not found", accountId)));
     }
 
-
-
-
-/*
-    public AccountClientDTO updateAccount(Long accountId, AccountClientDTO accountClientDTO) throws AccountClientNotFoundException{
-
-        AccountClient accountClientToUpdate=accountRepo.getOne(accountId);
-        AccountClient updateAccount = modelMapper.map(accountClientDTO, AccountClient.class);
-        updateAccount.setAccountId(accountClientToUpdate.getAccountId());
-
-        accountRepo.save(updateAccount);
-        return modelMapper.map(updateAccount, AccountClientDTO.class);
-
-    }
-
-
-
-
- */
-
-
     public AccountClientDTO applyPatchToAccount(JsonPatch patch, Long accountId) throws AccountClientNotFoundException {
-        AccountClient account = accountRepo.findAccountClientByAccountId(accountId)
+        AccountClient account = accountRepo.findById(accountId)
                 .map(a -> {
                     try {
                         return applyPatchToAccount(patch, a);
@@ -90,7 +63,7 @@ public class AccountService {
                     }
                     return a;
                 })
-                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account %s not found", accountId)));
+                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account about ID: %s not found", accountId)));
         return modelMapper.map(account, AccountClientDTO.class);
     }
 

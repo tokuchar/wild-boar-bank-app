@@ -1,6 +1,5 @@
 package com.boar.model.dto;
 
-import com.boar.model.dao.AccountData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,19 +17,23 @@ import java.util.Set;
 @AllArgsConstructor
 public class AccountClientDTO extends RepresentationModel<AccountClientDTO> {
 
-    String customerId;
+    private Long accountId;
+    private String customerId;
 
-    LocalDate dateCreated;
-    AccountDataDTO accountData;
+    private LocalDate dateCreated;
 
-    Set<BankCardDTO> bankCard;
+    private String accountNumber;
+    private String accountType;
+    private String currency;
+    private String balance;
+    private String interest;
 
-
+    private Set<BankCardDTO> bankCard;
 
     public AccountClientDTO addSelfLink() {
         return super.add(Link.of(MvcUriComponentsBuilder.fromController(getClass())
                 .path("/{id}")
-                .buildAndExpand(this.getCustomerId())
+                .buildAndExpand(this.getAccountId())
                 .toUri().toString(), "self"));
     }
 }

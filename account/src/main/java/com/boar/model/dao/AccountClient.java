@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Table(name = "account_client")
-public class AccountClient implements Serializable {
+public class AccountClient {
 
     @Id
     @Column(name = "account_id")
@@ -24,26 +23,15 @@ public class AccountClient implements Serializable {
     private String customerId;
     private LocalDate dateCreated;
 
-    @OneToOne(mappedBy = "accountClient",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private AccountData accountData;
+    private String accountNumber;
+    private String accountType;
+    private String currency;
+    private String balance;
+    private String interest;
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Set<BankCard> bankCard;
-
-    public void setAccountData(AccountData accountData) {
-        if (accountData == null) {
-            if (this.accountData != null) {
-                this.accountData.setAccountClient(null);
-            }
-        } else {
-            accountData.setAccountClient(this);
-        }
-        this.accountData = accountData;
-    }
 }

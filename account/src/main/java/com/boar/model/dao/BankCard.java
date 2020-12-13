@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Setter
@@ -13,14 +12,14 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @Table(name = "bank_card")
-public class BankCard implements Serializable {
+public class BankCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bank_card_id")
     private Long bankCardId;
 
-    private String Type;
+    private String type;
     private String cardNumber;
 
     private String cardVerificationCode;

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class BankCardDTO {
     Long bankCardId;
 
-    String Type;
+    String type;
     String cardNumber;
     String cardVerificationCode;
     String PIN;
