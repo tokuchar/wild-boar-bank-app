@@ -15,12 +15,15 @@ import org.hibernate.Transaction;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.xml.validation.Validator;
+
 @Slf4j
 @Service
 public class AccountService {
     final AccountRepo accountRepo;
     final ModelMapper modelMapper;
     final ObjectMapper objectMapper;
+
 
     public AccountService(AccountRepo accountRepo, ModelMapper modelMapper, ObjectMapper objectMapper) {
         this.accountRepo = accountRepo;
@@ -32,7 +35,6 @@ public class AccountService {
         checkIfAccountIsExist(accountClientDTO.getCustomerId());
 
         AccountClient accountClient = modelMapper.map(accountClientDTO, AccountClient.class);
-
         return modelMapper.map(accountRepo.save(accountClient), AccountClientDTO.class);
     }
 

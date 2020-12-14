@@ -1,12 +1,13 @@
 package com.boar.model.dao;
 
+
 import com.boar.model.CardType;
+import com.boar.service.GeneratorNumbers;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Setter
@@ -26,7 +27,9 @@ public class BankCard {
 
     private String cardNumber;
     private String cardVerificationCode;
-    private String PIN;
+
+   // @Column(columnDefinition = "#{T(com.boar.service.GeneratorNumbers).pinGenerator()}")
+    private String PIN= GeneratorNumbers.pinGenerator();
 
     private LocalDate validThru;
 }

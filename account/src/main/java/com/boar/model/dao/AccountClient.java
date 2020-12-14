@@ -5,6 +5,7 @@ import com.boar.model.Currency;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class AccountClient {
 
     private String customerId;
 
-    @Column(columnDefinition = "#{T(java.time.LocalDateTime).now()}")
+   // @Value("#{T(java.time.LocalDateTime).now()}")
     private LocalDate dateCreated;
 
     private String accountNumber;
