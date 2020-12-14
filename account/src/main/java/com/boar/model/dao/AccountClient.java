@@ -1,5 +1,7 @@
 package com.boar.model.dao;
 
+import com.boar.model.AccountType;
+import com.boar.model.Currency;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,13 +23,16 @@ public class AccountClient {
     private Long accountId;
 
     private String customerId;
+
+    @Column(columnDefinition = "#{T(java.time.LocalDateTime).now()}")
     private LocalDate dateCreated;
 
     private String accountNumber;
-    private String accountType;
-    private String currency;
     private String balance;
     private String interest;
+
+    private AccountType accountType;
+    private Currency currency;
 
     @OneToMany(cascade = CascadeType.ALL,
             orphanRemoval = true,
