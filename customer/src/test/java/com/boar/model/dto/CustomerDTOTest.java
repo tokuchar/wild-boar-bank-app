@@ -61,8 +61,8 @@ class CustomerDTOTest extends ValidatorTest implements CheckDataTest {
                 .birthDate(LocalDate.of(2050, 5, 30))
                 .build();
 
-        compareExpectedToActualValidateErrors(5, customerDTO1);
-        compareExpectedToActualValidateErrors(4, customerDTO2);
+        compareExpectedToActualValidateErrors(4, customerDTO1);
+        compareExpectedToActualValidateErrors(3, customerDTO2);
         compareExpectedToActualValidateErrors(5, customerDTO3);
     }
 }
