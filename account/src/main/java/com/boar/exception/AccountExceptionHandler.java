@@ -3,9 +3,11 @@ package com.boar.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.HashMap;
 
 @Slf4j
@@ -23,13 +25,23 @@ public class AccountExceptionHandler {
                 }},
                 HttpStatus.CONFLICT);
     }
-    @ExceptionHandler(AccountClientNotFoundException.class)
-    public ResponseEntity<Object> customerNotFoundException(AccountClientNotFoundException exception) {
+    @ExceptionHandler(javax.security.auth.login.AccountNotFoundException.class)
+    public ResponseEntity<Object> customerNotFoundException(AccountNotFoundException exception) {
         log.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(
                 new HashMap<String, String>() {{
                     put(RESPONSE_MESSAGE, exception.getMessage());
                 }},
-                HttpStatus.NOT_FOUND);
+                HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        log.error(EXCEPTION_MESSAGE, exception);
+        return new ResponseEntity<>(
+                new HashMap<String, String>() {{
+                    put(RESPONSE_MESSAGE, exception.getBindingResult().getFieldError().getDefaultMessage());
+                }},
+                HttpStatus.PRECONDITION_FAILED);
     }
 }

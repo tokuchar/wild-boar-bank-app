@@ -1,7 +1,5 @@
 package com.boar.service;
 
-import com.boar.exception.AccountAlreadyExistException;
-import com.boar.exception.AccountClientNotFoundException;
 import com.boar.model.dao.AccountClient;
 import com.boar.model.dto.AccountClientDTO;
 import com.boar.repository.AccountRepo;
@@ -11,11 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Transaction;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.xml.validation.Validator;
+import javax.security.auth.login.AccountNotFoundException;
 
 @Slf4j
 @Service
@@ -24,38 +21,36 @@ public class AccountService {
     final ModelMapper modelMapper;
     final ObjectMapper objectMapper;
 
-
     public AccountService(AccountRepo accountRepo, ModelMapper modelMapper, ObjectMapper objectMapper) {
         this.accountRepo = accountRepo;
         this.modelMapper = modelMapper;
         this.objectMapper = objectMapper;
     }
 
-    public AccountClientDTO createAccount(AccountClientDTO accountClientDTO) throws AccountAlreadyExistException {
+    public AccountClientDTO createAccount(AccountClientDTO accountClientDTO) throws AccountNotFoundException {
         checkIfAccountIsExist(accountClientDTO.getCustomerId());
 
         AccountClient accountClient = modelMapper.map(accountClientDTO, AccountClient.class);
         return modelMapper.map(accountRepo.save(accountClient), AccountClientDTO.class);
     }
 
-    public AccountClientDTO getAccount(Long accountId) throws AccountClientNotFoundException {
+    public AccountClientDTO getAccount(Long accountId) throws AccountNotFoundException {
         AccountClient account = accountRepo.findById(accountId)
-                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account about ID: %s not found", accountId)));
+                .orElseThrow(() -> new AccountNotFoundException(String.format("account about ID: %s not found", accountId)));
         return modelMapper.map(account, AccountClientDTO.class);
     }
 
-
-    public AccountClientDTO updateAccount(Long accountId, AccountClientDTO accountClientDTO) throws AccountClientNotFoundException{
+    public AccountClientDTO updateAccount(Long accountId, AccountClientDTO accountClientDTO) throws AccountNotFoundException {
         return accountRepo.findById(accountId).map(account -> {
             AccountClient updateAccount = modelMapper.map(accountClientDTO, AccountClient.class);
             updateAccount.setAccountId((account.getAccountId()));
             accountRepo.save(updateAccount);
             return modelMapper.map(updateAccount, AccountClientDTO.class);
         })
-                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account about ID: %s not found", accountId)));
+                .orElseThrow(() -> new AccountNotFoundException(String.format("account about ID: %s not found", accountId)));
     }
 
-    public AccountClientDTO applyPatchToAccount(JsonPatch patch, Long accountId) throws AccountClientNotFoundException {
+    public AccountClientDTO applyPatchToAccount(JsonPatch patch, Long accountId) throws AccountNotFoundException {
         AccountClient account = accountRepo.findById(accountId)
                 .map(a -> {
                     try {
@@ -65,7 +60,7 @@ public class AccountService {
                     }
                     return a;
                 })
-                .orElseThrow(() -> new AccountClientNotFoundException(String.format("account about ID: %s not found", accountId)));
+                .orElseThrow(() -> new AccountNotFoundException(String.format("account about ID: %s not found", accountId)));
         return modelMapper.map(account, AccountClientDTO.class);
     }
 
@@ -74,10 +69,10 @@ public class AccountService {
         return objectMapper.treeToValue(patched, AccountClient.class);
     }
 
-    private void checkIfAccountIsExist(String customerId) throws AccountAlreadyExistException {
+    private void checkIfAccountIsExist(String customerId) throws AccountNotFoundException {
         if (accountRepo.findAccountClientByCustomerId(customerId).isPresent()) {
-            throw new AccountAlreadyExistException(
-                    String.format("account %s already exists", customerId));
+            throw new AccountNotFoundException(
+                    String.format("account about ID: %s already exists", customerId));
         }
     }
 }

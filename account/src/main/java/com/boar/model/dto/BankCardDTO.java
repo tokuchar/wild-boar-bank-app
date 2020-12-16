@@ -2,8 +2,10 @@ package com.boar.model.dto;
 
 import com.boar.model.CardType;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
@@ -12,16 +14,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Validated
 public class BankCardDTO {
-    Long bankCardId;
+    private Long bankCardId;
 
-    CardType cardType;
-//TODO write algorithm Luhn
-    String cardNumber;
+    private CardType cardType;
+    //TODO write algorithm Luhn
+    private String cardNumber;
+
     @Pattern(regexp = "\\d{3}", message = "Card verification code contains incorrect value.")
-    String cardVerificationCode;
+    private String cardVerificationCode;
+
+    @NotNull
     @Pattern(regexp = "\\d{4}", message = "PIN contains incorrect value.")
-    String PIN;
+    private String PIN;
+
     @Future(message = "Valid Thru is incorrect.")
-    LocalDate validThru;
+    private LocalDate validThru;
 }

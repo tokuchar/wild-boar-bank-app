@@ -29,7 +29,7 @@ public class BankCard {
     private String cardVerificationCode;
 
    // @Column(columnDefinition = "#{T(com.boar.service.GeneratorNumbers).pinGenerator()}")
-    private String PIN= GeneratorNumbers.pinGenerator();
+    private String PIN;
 
     private LocalDate validThru;
 }
