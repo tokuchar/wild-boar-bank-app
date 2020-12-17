@@ -23,13 +23,11 @@ public class AccountClient {
     private Long accountId;
 
     private String customerId;
-
-   // @Value("#{T(java.time.LocalDateTime).now()}")
-    private LocalDate dateCreated;
-
     private String accountNumber;
     private String balance;
     private String interest;
+
+    private LocalDate dateCreated;
 
     private AccountType accountType;
     private Currency currency;

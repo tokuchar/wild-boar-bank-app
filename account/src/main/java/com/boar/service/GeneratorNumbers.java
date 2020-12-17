@@ -6,13 +6,21 @@ import java.util.Random;
 
 @Service
 public final class GeneratorNumbers {
+    private static final Random random = new Random();
+    private static final StringBuilder pin = new StringBuilder();
+    private static final StringBuilder cvc = new StringBuilder();
 
     public static String pinGenerator() {
-        Random random = new Random();
-        StringBuilder pin = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             pin.append(random.nextInt(9));
         }
         return String.valueOf(pin);
+    }
+
+    public static String cvcGenerator() {
+        for (int i = 0; i < 3; i++) {
+            cvc.append(random.nextInt(9));
+        }
+        return String.valueOf(cvc);
     }
 }

@@ -1,6 +1,7 @@
 package com.boar.service;
 
 import com.boar.model.dao.AccountClient;
+import com.boar.model.dao.BankCard;
 import com.boar.model.dto.AccountClientDTO;
 import com.boar.repository.AccountRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,14 +9,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.time.LocalDate;
 
 @Slf4j
 @Service
+@Builder
 public class AccountService {
     final AccountRepo accountRepo;
     final ModelMapper modelMapper;
@@ -31,6 +35,13 @@ public class AccountService {
         checkIfAccountIsExist(accountClientDTO.getCustomerId());
 
         AccountClient accountClient = modelMapper.map(accountClientDTO, AccountClient.class);
+        accountClient.setDateCreated(LocalDate.now());
+        for(BankCard bankCard: accountClient.getBankCard()){
+            bankCard.setPIN(GeneratorNumbers.pinGenerator());
+            bankCard.setCardVerificationCode(GeneratorNumbers.cvcGenerator());
+            bankCard.setValidThru(LocalDate.now().plusYears(2));
+        }
+
         return modelMapper.map(accountRepo.save(accountClient), AccountClientDTO.class);
     }
 

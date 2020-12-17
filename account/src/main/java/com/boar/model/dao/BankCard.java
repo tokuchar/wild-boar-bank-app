@@ -1,8 +1,6 @@
 package com.boar.model.dao;
 
-
 import com.boar.model.CardType;
-import com.boar.service.GeneratorNumbers;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,14 +20,11 @@ public class BankCard {
     @Column(name = "bank_card_id")
     private Long bankCardId;
 
-    @Column(name = "type")
-    private CardType cardType;
-
     private String cardNumber;
     private String cardVerificationCode;
-
-   // @Column(columnDefinition = "#{T(com.boar.service.GeneratorNumbers).pinGenerator()}")
     private String PIN;
 
+    @Column(name = "type")
+    private CardType cardType;
     private LocalDate validThru;
 }

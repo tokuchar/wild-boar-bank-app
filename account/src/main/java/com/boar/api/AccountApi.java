@@ -30,7 +30,7 @@ public class AccountApi {
 
     @PutMapping(path = "/{accountId}")
     public ResponseEntity<AccountClientDTO> updateAccount(@PathVariable("accountId") Long accountId,
-                                                          @RequestBody AccountClientDTO account) throws AccountNotFoundException {
+                                                          @RequestBody @Valid AccountClientDTO account) throws AccountNotFoundException {
         return ResponseEntity.ok(accountService.updateAccount(accountId, account).addSelfLink());
     }
 

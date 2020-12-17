@@ -25,6 +25,7 @@ public class AccountExceptionHandler {
                 }},
                 HttpStatus.CONFLICT);
     }
+
     @ExceptionHandler(javax.security.auth.login.AccountNotFoundException.class)
     public ResponseEntity<Object> customerNotFoundException(AccountNotFoundException exception) {
         log.error(EXCEPTION_MESSAGE, exception);
