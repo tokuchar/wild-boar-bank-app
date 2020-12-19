@@ -60,8 +60,8 @@ public class CustomerService {
                     } catch (JsonPatchException | JsonProcessingException e) {
                         log.error("exception: ", e);
                     }
-                    return c;
-                })
+                    return c;    })
+
                 .orElseThrow(() -> new CustomerNotFoundException(String.format("client %s not found", identityNumber)));
         return modelMapper.map(customer, CustomerDTO.class);
     }

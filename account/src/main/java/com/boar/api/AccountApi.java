@@ -1,6 +1,9 @@
 package com.boar.api;
 
-import com.boar.model.dto.AccountClientDTO;
+import com.boar.exception.BankCardNotFoundException;
+import com.boar.model.dto.AccountClientRequestDTOForInsert;
+import com.boar.model.dto.AccountClientResponseDTO;
+import com.boar.model.dto.BankCardResponseDTO;
 import com.boar.service.AccountService;
 import com.github.fge.jsonpatch.JsonPatch;
 import lombok.extern.slf4j.Slf4j;
@@ -23,24 +26,29 @@ public class AccountApi {
     }
 
     @PostMapping
-    public ResponseEntity<AccountClientDTO> createAccount(@RequestBody @Valid AccountClientDTO account) throws AccountNotFoundException {
+    public ResponseEntity<AccountClientResponseDTO> createAccount(@RequestBody @Valid AccountClientRequestDTOForInsert account) throws AccountNotFoundException {
         return ResponseEntity.ok(accountService.createAccount(account)
                 .addSelfLink());
     }
 
     @PutMapping(path = "/{accountId}")
-    public ResponseEntity<AccountClientDTO> updateAccount(@PathVariable("accountId") Long accountId,
-                                                          @RequestBody @Valid AccountClientDTO account) throws AccountNotFoundException {
+    public ResponseEntity<AccountClientResponseDTO> updateAccount(@PathVariable("accountId") Long accountId,
+                                                                  @RequestBody @Valid AccountClientRequestDTOForInsert account) throws AccountNotFoundException {
         return ResponseEntity.ok(accountService.updateAccount(accountId, account).addSelfLink());
     }
 
     @PatchMapping(value = "/{accountId}", consumes = "application/json-patch+json")
-    public ResponseEntity<AccountClientDTO> updatePartAccount(@RequestBody Long accountId, @PathVariable JsonPatch patch) throws AccountNotFoundException {
+    public ResponseEntity<AccountClientResponseDTO> updatePartAccount(@RequestBody Long accountId, @PathVariable JsonPatch patch) throws AccountNotFoundException {
         return ResponseEntity.ok(accountService.applyPatchToAccount(patch, accountId));
     }
 
+    @PatchMapping(value = "/{bankCardId}", consumes = "application/json-path+json")
+    public ResponseEntity<BankCardResponseDTO> updatePartBankCard(@RequestBody Long bankCardId, @PathVariable JsonPatch patch) throws BankCardNotFoundException {
+        return ResponseEntity.ok(accountService.applyPatchToBankCard(patch, bankCardId));
+    }
+
     @GetMapping(path = "/{accountId}")
-    public ResponseEntity<AccountClientDTO> getAccount(@PathVariable("accountId") Long accountId) throws AccountNotFoundException {
+    public ResponseEntity<AccountClientResponseDTO> getAccount(@PathVariable("accountId") Long accountId) throws AccountNotFoundException {
         return ResponseEntity.ok(accountService.getAccount(accountId)
                 .addSelfLink());
     }

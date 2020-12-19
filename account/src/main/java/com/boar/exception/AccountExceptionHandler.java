@@ -16,6 +16,16 @@ public class AccountExceptionHandler {
     public static final String EXCEPTION_MESSAGE = "exception";
     public static final String RESPONSE_MESSAGE = "message";
 
+    @ExceptionHandler(BankCardNotFoundException.class)
+    public ResponseEntity<Object> bankCardNotFoundException(BankCardNotFoundException exception) {
+        log.error(EXCEPTION_MESSAGE, exception);
+        return new ResponseEntity<>(
+                new HashMap<String, String>() {{
+                    put(RESPONSE_MESSAGE, exception.getMessage());
+                }},
+                HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(AccountAlreadyExistException.class)
     public ResponseEntity<Object> accountAlreadyExistException(AccountAlreadyExistException exception) {
         log.error(EXCEPTION_MESSAGE, exception);
@@ -26,8 +36,8 @@ public class AccountExceptionHandler {
                 HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(javax.security.auth.login.AccountNotFoundException.class)
-    public ResponseEntity<Object> customerNotFoundException(AccountNotFoundException exception) {
+    @ExceptionHandler({javax.security.auth.login.AccountNotFoundException.class})
+    public ResponseEntity<Object> accountNotFoundException(AccountNotFoundException exception) {
         log.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(
                 new HashMap<String, String>() {{
