@@ -13,13 +13,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
+import java.util.List;
 
 @EnableSwagger2
 @Slf4j
 @RestController
 @RequestMapping("/accounts")
 public class AccountApi {
-    final AccountService accountService;
+    final private AccountService accountService; // add private
 
     public AccountApi(AccountService accountService) {
         this.accountService = accountService;
@@ -42,7 +43,7 @@ public class AccountApi {
         return ResponseEntity.ok(accountService.applyPatchToAccount(patch, accountId));
     }
 
-    @PatchMapping(value = "/{bankCardId}", consumes = "application/json-path+json")
+    @PatchMapping(value = "/bankCard/{bankCardId}", consumes = "application/json-path+json")
     public ResponseEntity<BankCardResponseDTO> updatePartBankCard(@RequestBody Long bankCardId, @PathVariable JsonPatch patch) throws BankCardNotFoundException {
         return ResponseEntity.ok(accountService.applyPatchToBankCard(patch, bankCardId));
     }
@@ -51,5 +52,10 @@ public class AccountApi {
     public ResponseEntity<AccountClientResponseDTO> getAccount(@PathVariable("accountId") Long accountId) throws AccountNotFoundException {
         return ResponseEntity.ok(accountService.getAccount(accountId)
                 .addSelfLink());
+    }
+
+    @GetMapping(path = "/allAccounts/{customerId}") //todo
+    public ResponseEntity<List<AccountClientResponseDTO>> getAllAccountByCustomer(@PathVariable("customerId") String customerId) {
+        return ResponseEntity.ok(accountService.getAllAccountByCustomer(customerId));
     }
 }

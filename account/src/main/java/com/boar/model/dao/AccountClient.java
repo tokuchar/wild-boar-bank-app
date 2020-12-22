@@ -2,6 +2,7 @@ package com.boar.model.dao;
 
 import com.boar.model.AccountType;
 import com.boar.model.Currency;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "account_client")
 public class AccountClient {
 

@@ -12,30 +12,48 @@
     <artifactId>account</artifactId>
 
     <properties>
-        <mockito.version>3.3.3</mockito.version>
-        <junit.version>4.13</junit.version>
-        <junit-jupiter.version>5.6.2</junit-jupiter.version>
+<!--        <mockito.version>3.3.3</mockito.version>-->
+<!--        <junit.version>4.13</junit.version>-->
+<!--        <junit-jupiter.version>5.6.2</junit-jupiter.version>-->
+        <spring-boot-starter-test>2.4.1</spring-boot-starter-test>
+        <mockito-junit-jupiter>3.3.3</mockito-junit-jupiter>
+        <junit-jupiter>5.6.2</junit-jupiter>
+        <spring-test>5.2.8.RELEASE</spring-test>
+
     </properties>
 
     <packaging>jar</packaging>
     <dependencies>
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot-starter-test}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito-junit-jupiter}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JUnit 5 Dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-test}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
     </dependencies>
 
 

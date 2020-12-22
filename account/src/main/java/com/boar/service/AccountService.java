@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -42,14 +43,13 @@ public class AccountService {
 
         AccountClient accountClient = modelMapper.map(accountClientRequestDTOForInsert, AccountClient.class);
         accountClient.setDateCreated(LocalDate.now());
+        accountClient.setAccountNumber(GeneratorNumbers.accountNumberGenerator());
         createBankCard(accountClient);
 
         return modelMapper.map(accountRepo.save(accountClient), AccountClientResponseDTO.class);
     }
 
     public void createBankCard(AccountClient accountClient) {
-        String pin = GeneratorNumbers.pinGenerator();
-        String cvc = GeneratorNumbers.cvcGenerator();
         String cardNumber;
         LocalDate validThru = LocalDate.now().plusYears(2);
 
@@ -59,8 +59,8 @@ public class AccountService {
             while (checkIfBankCardExist(cardNumber));
 
             bankCard.setCardNumber(cardNumber);
-            bankCard.setPIN(pin);
-            bankCard.setCardVerificationCode(cvc);
+            bankCard.setPIN(GeneratorNumbers.pinGenerator());
+            bankCard.setCardVerificationCode(GeneratorNumbers.cvcGenerator());
             bankCard.setValidThru(validThru);
         }
     }
@@ -73,6 +73,27 @@ public class AccountService {
         AccountClient account = accountRepo.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException(String.format("account about ID: %s not found", accountId)));
         return modelMapper.map(account, AccountClientResponseDTO.class);
+    }
+
+    public BankCardResponseDTO getBankCard(Long bankCardId) throws BankCardNotFoundException {
+        BankCard bankCard = bankCardRepo.findById(bankCardId)
+                .orElseThrow(() -> new BankCardNotFoundException((String.format("bank card about ID: %s not found", bankCardId))));
+        return modelMapper.map(bankCard, BankCardResponseDTO.class);
+    }
+
+    public List<AccountClientResponseDTO> getAllAccountByCustomer(String customerId) {
+        List<AccountClient> listOfAccountClient= accountRepo.findAllAccountClientByCustomerId(customerId);
+        List<AccountClientResponseDTO> accountClientResponseDTO = new ArrayList<AccountClientResponseDTO>();
+
+        for(AccountClient accountClient: listOfAccountClient){
+            accountClientResponseDTO.add(modelMapper.map(accountClient, AccountClientResponseDTO.class));
+        }
+        
+        return accountClientResponseDTO;
+
+
+        //  .orElseThrow(()-> new AccountNotFoundException(String.format("customer about ID: %s not found", customerId)));
+
     }
 
     public AccountClientResponseDTO updateAccount(Long accountId, AccountClientRequestDTOForInsert accountClientRequestDTOForInsert) throws AccountNotFoundException {

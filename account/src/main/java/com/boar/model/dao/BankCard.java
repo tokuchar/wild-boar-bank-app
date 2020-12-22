@@ -1,6 +1,7 @@
 package com.boar.model.dao;
 
 import com.boar.model.CardType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "bank_card")
 public class BankCard {
 
